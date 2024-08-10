@@ -8,6 +8,7 @@ import 'package:garma_garam_tiffin_app/screens/main_scaffold.dart';
 import 'package:garma_garam_tiffin_app/screens/my_orders_page.dart';
 import 'package:garma_garam_tiffin_app/screens/notification_page.dart';
 import 'package:garma_garam_tiffin_app/screens/profile_page.dart';
+import 'package:garma_garam_tiffin_app/utils/colors.dart';
 import 'package:garma_garam_tiffin_app/utils/theme.dart';
 import 'package:garma_garam_tiffin_app/widgets/app_drawer.dart';
 import 'auth/create_new_password.dart';
@@ -56,31 +57,34 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 400,
-      child: MaterialApp(
-        title: 'FluxStore',
-        theme: lightTheme,
-        routes: {
-          "/Auth" : (context) => const AuthPage(),
-          // "/Login" : (context) => const LogIn(),
-          // "/signup" : (context) => const SignUp(),
-          // "/ForgotPassword" : (context) => const ForgotPassword(),
-          // "/CreateNewPassword" : (context) => const CreateNewPassword(),
-          // "/CodeVerification" : (context) => const VerificationCode(),
+      width: globalMaxAllowedWidth,
+      child: SafeArea(
+        child: MaterialApp(
+          title: 'FluxStore',
+          debugShowCheckedModeBanner: false,
+          theme: lightTheme,
+          routes: {
+            "/Auth" : (context) => const AuthPage(),
+            // "/Login" : (context) => const LogIn(),
+            // "/signup" : (context) => const SignUp(),
+            // "/ForgotPassword" : (context) => const ForgotPassword(),
+            // "/CreateNewPassword" : (context) => const CreateNewPassword(),
+            // "/CodeVerification" : (context) => const VerificationCode(),
 
-          "/home" : (context) => const HomeScreen(currentIndex: 0,),
-          "/homePage" : (context) => const HomePage(),
-          "/discover" : (context) => const DiscoverPage(),
-          "/MyOrders" : (context) => const MyOrdersPage(),
-          "/profile" : (context) => const ProfilePage(),
+            "/home" : (context) => const HomeScreen(currentIndex: 0,),
+            "/homePage" : (context) => const HomePage(),
+            "/discover" : (context) => const DiscoverPage(),
+            "/MyOrders" : (context) => const MyOrdersPage(),
+            "/profile" : (context) => const ProfilePage(),
 
-          "/drawer" : (context) => const MyAppDrawer(),
-          "/notification" : (context) => const NotificationPage(),
-        },
+            "/drawer" : (context) => const MyAppDrawer(),
+            "/notification" : (context) => const NotificationPage(),
+          },
 
-        ///set the route currently being worked on here.
-        ///Default value will be "/Login"
-        initialRoute: "/Auth",
+          ///set the route currently being worked on here.
+          ///Default value will be "/Login"
+          initialRoute: "/home",
+        ),
       ),
     );
   }

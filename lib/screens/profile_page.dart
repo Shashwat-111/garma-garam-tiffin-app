@@ -12,10 +12,10 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
 
   Map<String, IconData> settingList = {
+    "My Subscription" : Icons.calendar_month,
+    "My Orders" : Icons.access_time_sharp,
+    "Food Preference" : Icons.fastfood_outlined,
     "Address" : Icons.location_pin,
-    "Payment Method" : Icons.payment_sharp,
-    "Voucher" : Icons.local_offer_sharp,
-    "My Wishlist" : Icons.favorite,
     "Rate this app" : Icons.star_rate,
     "Log out" : Icons.logout_sharp,
   };
@@ -26,11 +26,10 @@ class _ProfilePageState extends State<ProfilePage> {
     return Column(
       children: [
         const SizedBox(height: defaultHeightPadding,),
-
         const ListTile(
-          leading: CircleAvatar(radius: 24,backgroundColor: Colors.transparent),
+          leading: CircleAvatar(radius: 24,backgroundColor: Colors.transparent,backgroundImage: AssetImage("assets/defaultDP.png")),
           title: Text("Shashwat Dubey",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-          subtitle: Text("shashwatdubey111@gmail.com",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400),),
+          subtitle: Text("+91 7999204389",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400),),
           trailing: Icon(Icons.settings),
         ),
        const SizedBox(height: defaultHeightPadding,),

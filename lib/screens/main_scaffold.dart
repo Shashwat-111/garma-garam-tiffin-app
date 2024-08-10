@@ -20,6 +20,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late int _selectedIndex;
 
+  @override
+  void initState() {
+    _selectedIndex = widget.currentIndex;
+    super.initState();
+  }
+
   //the state of the page is currently not preserved
   //todo either replace BottomNavBar with IndexedStack widget or wrap it with PageView widget
   _navigateBottomBar(int index){
@@ -28,12 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  @override
-  void initState() {
-    _selectedIndex = widget.currentIndex;
-    // TODO: implement initState
-    super.initState();
-  }
+
   List<Widget> pages = const [
     HomePage(),
     DiscoverPage(),
@@ -41,36 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
     ProfilePage(),
   ];
 
-  List<String> appBarTitle = const [
-    "GarmaGaram",
-    "Discover",
-    "My Orders",
-    "Profile"
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(appBarTitle[_selectedIndex], style: _selectedIndex == 0 ? const TextStyle(fontWeight: FontWeight.bold) : const TextStyle(fontWeight: FontWeight.w400)),
-        leading: Builder(
-          builder:(context)=> IconButton(
-            icon: const Icon(Icons.menu_sharp),
-            onPressed: (){
-              Scaffold.of(context).openDrawer();
-            },
-          ),
-        ),
-        actions: [
-          IconButton(onPressed: (){
-            Navigator.pushNamed(context, "/notification");
-          }, icon: const Icon(Icons.notifications_none_sharp)),
-        ],
-      ),
-
-      drawer: const MyAppDrawer(),
-      endDrawer: const FilterDrawer(),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),

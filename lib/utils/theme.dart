@@ -46,10 +46,10 @@ TextTheme textTheme = const TextTheme(
     fontWeight: FontWeight.w400,
   ),
 
-  ///text like "Feature Product" in HomePage
+  ///text like "Browse by cuisine" in HomePage
   titleLarge: TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.15,
   ),
   titleMedium: TextStyle(
