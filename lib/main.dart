@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:garma_garam_tiffin_app/auth/auth_page.dart';
 import 'package:garma_garam_tiffin_app/screens/discover_page.dart';
 import 'package:garma_garam_tiffin_app/screens/home_page.dart';
+import 'package:garma_garam_tiffin_app/screens/kitchen_page.dart';
 import 'package:garma_garam_tiffin_app/screens/main_scaffold.dart';
 import 'package:garma_garam_tiffin_app/screens/my_orders_page.dart';
 import 'package:garma_garam_tiffin_app/screens/notification_page.dart';
@@ -76,6 +77,7 @@ class MyApp extends StatelessWidget {
             "/discover" : (context) => const DiscoverPage(),
             "/MyOrders" : (context) => const MyOrdersPage(),
             "/profile" : (context) => const ProfilePage(),
+            "/kitchen_details" : (context) => const KitchenPage(),
 
             "/drawer" : (context) => const MyAppDrawer(),
             "/notification" : (context) => const NotificationPage(),
@@ -83,7 +85,7 @@ class MyApp extends StatelessWidget {
 
           ///set the route currently being worked on here.
           ///Default value will be "/Login"
-          initialRoute: "/home",
+          initialRoute: "/kitchen_details",
         ),
       ),
     );

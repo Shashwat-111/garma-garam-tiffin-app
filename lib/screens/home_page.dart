@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garma_garam_tiffin_app/widgets/restaurant_card.dart';
-import '../utils/constants.dart';
 import '../widgets/cusine_card.dart';
-import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
