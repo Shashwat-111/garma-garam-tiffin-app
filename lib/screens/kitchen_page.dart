@@ -1,8 +1,6 @@
 import "package:flutter/material.dart";
-import "package:garma_garam_tiffin_app/utils/constants.dart";
-
 import "../widgets/default_button.dart";
-import "../widgets/kitchen_details_card.dart";
+import "../widgets/veg_nonveg_icon.dart";
 
 class KitchenPage extends StatefulWidget {
   const KitchenPage({super.key});
@@ -23,7 +21,7 @@ class _KitchenPageState extends State<KitchenPage> {
         actions: [
           IconButton(onPressed: (){}, icon: const Icon(Icons.favorite_border_sharp)),
           IconButton(onPressed: (){}, icon: const Icon(Icons.share_sharp)),
-          IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert))
+          IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert)),
         ],
       ),
       body: Padding(
@@ -31,7 +29,7 @@ class _KitchenPageState extends State<KitchenPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const KitchenDetailsCard(),
+            //const KitchenDetailsCard(),
             const SizedBox(height: 10,),
             Text("MEALS", style: Theme.of(context).textTheme.titleLarge,),
             const Spacer(), // display the weekly menu here if available

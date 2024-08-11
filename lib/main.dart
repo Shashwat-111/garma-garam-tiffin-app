@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
 
           ///set the route currently being worked on here.
           ///Default value will be "/Login"
-          initialRoute: "/kitchen_details",
+          initialRoute: "/home",
         ),
       ),
     );

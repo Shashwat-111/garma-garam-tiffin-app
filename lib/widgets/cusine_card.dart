@@ -28,3 +28,32 @@ class CuisineCard extends StatelessWidget {
     );
   }
 }
+
+
+//browse by cuisine feature, currently not available
+//add the following code to the homepage ListView, with feature is available.
+// Text(
+//   "Browse By Cuisines",
+//   style: Theme.of(context).textTheme.titleLarge,
+// ),
+// const SizedBox(height: 20),
+// SizedBox(
+//   width: 350,
+//   height: 150,
+//   child: ListView.builder(
+//     scrollDirection: Axis.horizontal,
+//     itemCount: availableCuisine.length,
+//     itemBuilder: (context, index) {
+//       return Padding(
+//         padding: const EdgeInsets.symmetric(horizontal: 5),
+//         child: CuisineCard(
+//           image: availableCuisine[index]["image"],
+//           title: availableCuisine[index]["name"],
+//           tiffinAvailable:
+//           availableCuisine[index]["Available"].toString(),
+//         ),
+//       );
+//     },
+//   ),
+// ),
+// const SizedBox(height: 20),
