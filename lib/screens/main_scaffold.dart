@@ -37,7 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> pages = const [
     HomePage(),
-    DiscoverPage(),
     MyOrdersPage(),
     ProfilePage(),
   ];
@@ -62,16 +61,16 @@ class _HomeScreenState extends State<HomeScreen> {
             iconSize: 26,
             selectedIconTheme : const IconThemeData(color: Colors.black),
             unselectedIconTheme: IconThemeData(color: Colors.grey[350]),
+            selectedLabelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
             currentIndex: _selectedIndex,
             onTap: _navigateBottomBar,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
             type: BottomNavigationBarType.fixed,
             items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "home"),
-              BottomNavigationBarItem(icon: Icon(Icons.search_sharp), label: "discover"),
-              BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_sharp), label: "myOrders"),
-              BottomNavigationBarItem(icon: Icon(Icons.person_outline_sharp), label: "profile")
+              BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "Home"),
+              BottomNavigationBarItem(icon: Icon(Icons.access_time), label: "Orders"),
+              BottomNavigationBarItem(icon: Icon(Icons.person_outline_sharp), label: "Profile")
             ],
           ),
         ),
