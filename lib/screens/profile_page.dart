@@ -13,10 +13,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Map<String, IconData> settingList = {
     "My Subscription" : Icons.calendar_month,
-    "My Orders" : Icons.access_time_sharp,
     "Food Preference" : Icons.fastfood_outlined,
     "Address" : Icons.location_pin,
-    "Rate this app" : Icons.star_rate,
+    "Customer Support" : Icons.support_agent_sharp,
     "Log out" : Icons.logout_sharp,
   };
 
@@ -33,18 +32,17 @@ class _ProfilePageState extends State<ProfilePage> {
           trailing: Icon(Icons.settings),
         ),
        const SizedBox(height: defaultHeightPadding,),
-        Card(
-          elevation: 2,
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width-32,
-            height: 350,
+        Expanded(
+          child: Card(
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            elevation: 2,
             child: ListView.builder(
               itemCount: settingList.length,
                 itemBuilder: (context, index){
               return ListTile(
                 leading: Icon(settingList.values.elementAt(index), color: Colors.grey,),
                 title: Text(settingList.keys.elementAt(index)),
-                trailing: index == 5 ? null : const Icon(Icons.chevron_right),
+                trailing: settingList.keys.toList()[index] == "Log out" ? null : const Icon(Icons.chevron_right),
                 onTap: (){
                   FirebaseAuth.instance.signOut();
                 },
