@@ -9,6 +9,23 @@ class TiffinDetailCard extends StatefulWidget {
 }
 
 class _TiffinDetailCardState extends State<TiffinDetailCard> {
+  int initialItemCount = 0;
+
+  addItem(){
+    setState(() {
+      initialItemCount++;
+      print(initialItemCount);
+    });
+  }
+
+  removeItem(){
+    setState(() {
+      if(initialItemCount>0){
+        initialItemCount--;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -70,7 +87,47 @@ class _TiffinDetailCardState extends State<TiffinDetailCard> {
                         //margin: EdgeInsets.only(bottom: 12,left: 5,right: 5),),
                       Positioned(
                           top: 80,
-                          child: ElevatedButton(onPressed: (){}, child: Text("ADD")))
+                          child: initialItemCount == 0
+                              ? SizedBox(
+                                height: 40,
+                                width: 80,
+                                child: ElevatedButton(
+                                onPressed: (){
+                                  addItem();
+                                },
+                                child: Text("ADD")),
+                              )
+
+                              : Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.purple[50]
+                            ),
+                            child: SizedBox(
+                              height: 40,
+                              width: 80,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  GestureDetector(
+                                      onTap: (){
+                                        removeItem();
+                                      },
+                                      child: Icon(Icons.remove),
+                                  ),
+                                  Text(initialItemCount.toString(), style: TextStyle(fontWeight: FontWeight.bold),),
+                                  GestureDetector(
+                                    onTap: (){
+                                      addItem();
+                                    },
+                                    child: Icon(Icons.add),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                      )
                     ]
               ),
             ),

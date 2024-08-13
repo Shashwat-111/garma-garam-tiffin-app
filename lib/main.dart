@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:garma_garam_tiffin_app/auth/auth_page.dart';
-import 'package:garma_garam_tiffin_app/screens/discover_page.dart';
 import 'package:garma_garam_tiffin_app/screens/home_page.dart';
 import 'package:garma_garam_tiffin_app/screens/kitchen_page.dart';
 import 'package:garma_garam_tiffin_app/screens/main_scaffold.dart';
