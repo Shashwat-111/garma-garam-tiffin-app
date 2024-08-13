@@ -11,12 +11,14 @@ import 'package:garma_garam_tiffin_app/screens/profile_page.dart';
 import 'package:garma_garam_tiffin_app/utils/colors.dart';
 import 'package:garma_garam_tiffin_app/utils/theme.dart';
 import 'package:garma_garam_tiffin_app/widgets/app_drawer.dart';
+import 'Providers/CartProvider.dart';
 import 'auth/create_new_password.dart';
 import 'auth/forgot_password.dart';
 import 'auth/log_in.dart';
 import 'auth/sign_up.dart';
 import 'auth/verification_code.dart';
 import 'firebase_options.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,32 +61,38 @@ class MyApp extends StatelessWidget {
     return SizedBox(
       width: globalMaxAllowedWidth,
       child: SafeArea(
-        child: MaterialApp(
-          title: 'FluxStore',
-          debugShowCheckedModeBanner: false,
-          theme: lightTheme,
-          routes: {
-            "/Auth" : (context) => const AuthPage(),
-            // "/Login" : (context) => const LogIn(),
-            // "/signup" : (context) => const SignUp(),
-            // "/ForgotPassword" : (context) => const ForgotPassword(),
-            // "/CreateNewPassword" : (context) => const CreateNewPassword(),
-            // "/CodeVerification" : (context) => const VerificationCode(),
-
-            "/home" : (context) => const HomeScreen(currentIndex: 0,),
-            "/homePage" : (context) => const HomePage(),
-            "/discover" : (context) => const DiscoverPage(),
-            "/MyOrders" : (context) => const MyOrdersPage(),
-            "/profile" : (context) => const ProfilePage(),
-            "/kitchen_details" : (context) => const KitchenPage(),
-
-            "/drawer" : (context) => const MyAppDrawer(),
-            "/notification" : (context) => const NotificationPage(),
-          },
-
-          ///set the route currently being worked on here.
-          ///Default value will be "/Login"
-          initialRoute: "/home",
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+                create: (context) => CartProvider(),
+            )
+          ],
+          child: MaterialApp(
+            title: 'FluxStore',
+            debugShowCheckedModeBanner: false,
+            theme: lightTheme,
+            routes: {
+              "/Auth" : (context) => const AuthPage(),
+              // "/Login" : (context) => const LogIn(),
+              // "/signup" : (context) => const SignUp(),
+              // "/ForgotPassword" : (context) => const ForgotPassword(),
+              // "/CreateNewPassword" : (context) => const CreateNewPassword(),
+              // "/CodeVerification" : (context) => const VerificationCode(),
+          
+              "/home" : (context) => const HomeScreen(currentIndex: 0,),
+              "/homePage" : (context) => const HomePage(),
+              "/MyOrders" : (context) => const MyOrdersPage(),
+              "/profile" : (context) => const ProfilePage(),
+              "/kitchen_details" : (context) => const KitchenPage(),
+          
+              "/drawer" : (context) => const MyAppDrawer(),
+              "/notification" : (context) => const NotificationPage(),
+            },
+          
+            ///set the route currently being worked on here.
+            ///Default value will be "/Login"
+            initialRoute: "/home",
+          ),
         ),
       ),
     );
