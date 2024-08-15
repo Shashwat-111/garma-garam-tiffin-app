@@ -30,6 +30,7 @@ class _CartPageState extends State<CartPage> {
                 itemCount: cartProviderModal.menuItemWithQuantity.keys.length,
                   itemBuilder: (context, index){
                 return Padding(
+                  key: ValueKey(cartProviderModal.menuItemWithQuantity.keys.toList()[index].id),
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: TiffinDetailCard(
 

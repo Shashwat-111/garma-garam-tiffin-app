@@ -64,6 +64,7 @@ class _HomePageState extends State<HomePage> {
             );
           } else {
             return Padding(
+              key: ValueKey(cartProviderModal.initialMenuItem[index-1].id),
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: TiffinDetailCard(
 

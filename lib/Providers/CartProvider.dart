@@ -37,17 +37,20 @@ class CartProvider extends ChangeNotifier {
     else {
       _menuItemWithQuantity[menuItem] = 1;
     }
+
+    print(menuItemWithQuantity);
     notifyListeners();
   }
 
   removeFromCart(MenuItem menuItem){
     if(_menuItemWithQuantity.containsKey(menuItem)){
-      if(_menuItemWithQuantity[menuItem]! > 0){
+      if(_menuItemWithQuantity[menuItem]! > 1){
         _menuItemWithQuantity[menuItem] = (_menuItemWithQuantity[menuItem]! - 1);
-      } if (_menuItemWithQuantity[menuItem]! == 0) {
+      } else {
         _menuItemWithQuantity.remove(menuItem);
       }
-    }
+      }
+    print(menuItemWithQuantity);
     notifyListeners();
   }
 }
