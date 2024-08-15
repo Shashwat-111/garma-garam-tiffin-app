@@ -39,4 +39,15 @@ class CartProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  removeFromCart(MenuItem menuItem){
+    if(_menuItemWithQuantity.containsKey(menuItem)){
+      if(_menuItemWithQuantity[menuItem]! > 0){
+        _menuItemWithQuantity[menuItem] = (_menuItemWithQuantity[menuItem]! - 1);
+      } if (_menuItemWithQuantity[menuItem]! == 0) {
+        _menuItemWithQuantity.remove(menuItem);
+      }
+    }
+    notifyListeners();
+  }
 }

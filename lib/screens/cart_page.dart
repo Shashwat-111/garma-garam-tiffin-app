@@ -37,7 +37,7 @@ class _CartPageState extends State<CartPage> {
                       cartProviderModal.addToCart(cartProviderModal.menuItemWithQuantity.keys.toList()[index]);
                     },
                     onTapRemove: (){
-
+                      cartProviderModal.removeFromCart(cartProviderModal.menuItemWithQuantity.keys.toList()[index]);
                     },
                     menuItem: cartProviderModal.menuItemWithQuantity.keys.toList()[index],
                     currentQuantity: cartProviderModal.menuItemWithQuantity.values.toList()[index],

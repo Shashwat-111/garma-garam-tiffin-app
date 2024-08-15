@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                     cartProviderModal.addToCart(cartProviderModal.initialMenuItem[index-1]);
                     },
                   onTapRemove: (){
-
+                    cartProviderModal.removeFromCart(cartProviderModal.initialMenuItem[index-1]);
                   },
                 menuItem: cartProviderModal.initialMenuItem[index-1],
                 currentQuantity: cartProviderModal.menuItemWithQuantity.containsKey(cartProviderModal.initialMenuItem[index-1])
