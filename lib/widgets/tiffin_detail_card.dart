@@ -1,27 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:garma_garam_tiffin_app/Providers/CartProvider.dart';
 import 'package:garma_garam_tiffin_app/widgets/veg_nonveg_icon.dart';
 
 class TiffinDetailCard extends StatefulWidget {
-  const TiffinDetailCard({super.key});
+  final VoidCallback onTapAdd;
+  final VoidCallback onTapRemove;
+  final MenuItem menuItem;
+  final int currentQuantity;
+  const TiffinDetailCard({super.key, required this.onTapAdd, required this.onTapRemove, required this.menuItem, required this.currentQuantity});
 
   @override
   State<TiffinDetailCard> createState() => _TiffinDetailCardState();
 }
 
 class _TiffinDetailCardState extends State<TiffinDetailCard> {
-  int initialItemCount = 0;
 
-  addItem(){
+
+  late int initialItemCount;
+
+  @override
+  void initState() {
+    initialItemCount = widget.currentQuantity;
+    super.initState();
+  }
+
+  void addItem(){
     setState(() {
       initialItemCount++;
-      print(initialItemCount);
+      widget.onTapAdd();
     });
   }
 
-  removeItem(){
+  void removeItem(){
     setState(() {
       if(initialItemCount>0){
         initialItemCount--;
+        widget.onTapRemove();
       }
     });
   }
@@ -39,27 +53,27 @@ class _TiffinDetailCardState extends State<TiffinDetailCard> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           //text details column
-          const Expanded(
+          Expanded(
             flex: 2,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Dubey Kitchen", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),),
+                Text(widget.menuItem.kitchenName.toString(), style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    VegNonVegIcon(isVeg: true),
-                    SizedBox(width: 10),
-                    Text("Chole Thali", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16))
+                    const VegNonVegIcon(isVeg: true),
+                    const SizedBox(width: 10),
+                    Text(widget.menuItem.foodName.toString(), style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 16))
                   ],
                 ),
-                Text(
+                const Text(
                   "Chole ki sabji + 5 roti + dal+ rice + Boondi Raita",
                   style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14),
                   overflow: TextOverflow.clip,),
-                SizedBox(height: 7),
-                Text("₹120", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
+                const SizedBox(height: 7),
+                Text(widget.menuItem.price.toString(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
               ],
             ),
           ),
@@ -95,7 +109,7 @@ class _TiffinDetailCardState extends State<TiffinDetailCard> {
                                 onPressed: (){
                                   addItem();
                                 },
-                                child: Text("ADD")),
+                                child: const Text("ADD")),
                               )
 
                               : Container(
@@ -114,14 +128,14 @@ class _TiffinDetailCardState extends State<TiffinDetailCard> {
                                       onTap: (){
                                         removeItem();
                                       },
-                                      child: Icon(Icons.remove),
+                                      child: const Icon(Icons.remove),
                                   ),
-                                  Text(initialItemCount.toString(), style: TextStyle(fontWeight: FontWeight.bold),),
+                                  Text(initialItemCount.toString(), style: const TextStyle(fontWeight: FontWeight.bold),),
                                   GestureDetector(
                                     onTap: (){
                                       addItem();
                                     },
-                                    child: Icon(Icons.add),
+                                    child: const Icon(Icons.add),
                                   ),
                                 ],
                               ),

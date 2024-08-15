@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:garma_garam_tiffin_app/widgets/restaurant_card.dart';
-import '../widgets/cusine_card.dart';
+import 'package:provider/provider.dart';
+import '../Providers/CartProvider.dart';
 import '../widgets/tiffin_detail_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,15 +12,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  List restaurantData = List.generate(5,(index)=> 1);
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
+    return Consumer<CartProvider>(
+      builder:(context,cartProviderModal,child)=>ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: 6 + restaurantData.length, // Adjust itemCount based on the content
+        itemCount: 1 + cartProviderModal.initialMenuItem.length,
         itemBuilder: (context, index) {
+          //for 1st index displaying the banner image, app bar, and banner image
+          //for all other index the TiffinDetailCard will be displayed
           if (index == 0) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,9 +63,21 @@ class _HomePageState extends State<HomePage> {
               ],
             );
           } else {
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: TiffinDetailCard(),
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: TiffinDetailCard(
+
+                  onTapAdd: (){
+                    cartProviderModal.addToCart(cartProviderModal.initialMenuItem[index-1]);
+                    },
+                  onTapRemove: (){
+
+                  },
+                menuItem: cartProviderModal.initialMenuItem[index-1],
+                currentQuantity: cartProviderModal.menuItemWithQuantity.containsKey(cartProviderModal.initialMenuItem[index-1])
+                    ? cartProviderModal.menuItemWithQuantity[cartProviderModal.initialMenuItem[index-1]]!
+                    : 0
+              ),
             );
           }
         },
