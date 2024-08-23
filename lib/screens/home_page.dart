@@ -31,7 +31,12 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     const Icon(Icons.location_pin),
                     const SizedBox(width: 10),
-                    const Text("Choubey Colony"),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pushNamed(context, "/location");
+                      },
+                        child: const Text("Choubey Colony")
+                    ),
                     const Spacer(),
                     GestureDetector(
                       onTap: () {

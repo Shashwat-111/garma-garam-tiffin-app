@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:garma_garam_tiffin_app/auth/auth_page.dart';
 import 'package:garma_garam_tiffin_app/screens/home_page.dart';
 import 'package:garma_garam_tiffin_app/screens/kitchen_page.dart';
+import 'package:garma_garam_tiffin_app/screens/location_page.dart';
 import 'package:garma_garam_tiffin_app/screens/main_scaffold.dart';
 import 'package:garma_garam_tiffin_app/screens/my_orders_page.dart';
 import 'package:garma_garam_tiffin_app/screens/notification_page.dart';
@@ -11,6 +12,7 @@ import 'package:garma_garam_tiffin_app/screens/profile_page.dart';
 import 'package:garma_garam_tiffin_app/utils/colors.dart';
 import 'package:garma_garam_tiffin_app/utils/theme.dart';
 import 'package:garma_garam_tiffin_app/widgets/app_drawer.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'Providers/CartProvider.dart';
 import 'auth/create_new_password.dart';
 import 'auth/forgot_password.dart';
@@ -30,6 +32,12 @@ void main() async {
     webAppWidth: 380.0,
     app: const MyApp(),
   );
+
+  await Permission.locationWhenInUse.isDenied.then((value){
+    if(value){
+      Permission.locationWhenInUse.request();
+    }
+  });
   runApp(runnableApp);
 }
 
@@ -83,7 +91,7 @@ class MyApp extends StatelessWidget {
               "/homePage" : (context) => const HomePage(),
               "/MyOrders" : (context) => const MyOrdersPage(),
               "/profile" : (context) => const ProfilePage(),
-              "/kitchen_details" : (context) => const KitchenPage(),
+              "/location" : (context) => const LocationPage(),
           
               "/drawer" : (context) => const MyAppDrawer(),
               "/notification" : (context) => const NotificationPage(),
