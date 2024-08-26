@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:geolocator/geolocator.dart";
-
+import "package:google_maps_flutter/google_maps_flutter.dart";
 import "../services/location_autocomplete_google.dart";
 import "../utils/models/location_autocomplete.dart";
 
@@ -133,11 +133,13 @@ class _LocationPageState extends State<LocationPage> {
               : predictionList[index];
           return InkWell(
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => WeatherDetailScreen(prediction: prediction),
-                ),
-              );
+              getLatLngFromPlaceId(prediction.placeId.toString()).then((value)=> {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => LocationMapScreen(prediction: value),
+                  ),
+                )
+              });
               setState(() {
                 pastSearch.add(prediction);
               });
@@ -162,17 +164,43 @@ class _LocationPageState extends State<LocationPage> {
 }
 
 
-class WeatherDetailScreen extends StatefulWidget {
-  final Prediction prediction;
-  const WeatherDetailScreen({super.key, required this.prediction});
+class LocationMapScreen extends StatefulWidget {
+  final Map<String, double> prediction;
+  const LocationMapScreen({super.key, required this.prediction});
 
   @override
-  State<WeatherDetailScreen> createState() => _WeatherDetailScreenState();
+  State<LocationMapScreen> createState() => _LocationMapScreenState();
 }
 
-class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
+class _LocationMapScreenState extends State<LocationMapScreen> {
+  late double? lat;
+  late double? lng;
+  @override
+  void initState() {
+    lat = widget.prediction["lat"];
+    lng = widget.prediction["lng"];
+    print(lat);
+    print(lng);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    if (lat == null){
+      return const CircularProgressIndicator();
+    } else {
+      return GoogleMap(
+        markers: {
+          Marker(
+            markerId: const MarkerId('sourceLocation'),
+            icon: BitmapDescriptor.defaultMarker,
+            position: LatLng(lat!, lng!),
+          ),
+        },
+        initialCameraPosition: CameraPosition(target: LatLng(lat!, lng!),
+          zoom: 13,
+        )
+    );
+    }
   }
 }
