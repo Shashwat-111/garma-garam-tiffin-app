@@ -1,6 +1,9 @@
 import "package:flutter/material.dart";
 import "package:geolocator/geolocator.dart";
 
+import "../services/location_autocomplete_google.dart";
+import "../utils/models/location_autocomplete.dart";
+
 class LocationPage extends StatefulWidget {
   const LocationPage({super.key});
 
@@ -18,6 +21,24 @@ class _LocationPageState extends State<LocationPage> {
     });
   }
 
+
+  List<Prediction> predictionList = [];
+  TextEditingController searchController = TextEditingController();
+  Set<Prediction> pastSearch = {};
+
+  void placeAutoComplete(String query) async {
+    String? response = await getAutoCompleteData(query: query);
+    if (response != null) {
+      AutocompletePrediction autocompletePrediction =
+      autocompletePredictionFromJson(response);
+      if (autocompletePrediction.predictions != null) {
+        setState(() {
+          predictionList = autocompletePrediction.predictions!;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,19 +52,20 @@ class _LocationPageState extends State<LocationPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             
-            //search bar 
-            SizedBox(
-              height: 50,
-              child: TextField(
-                textAlignVertical: TextAlignVertical.bottom,
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  prefixIcon: const Icon(Icons.search),
-                  hintText: "Search For Your Location",
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))
-                ),
-              ),
-            ),
+            //search bar
+            buildSearchBar(),
+            // SizedBox(
+            //   height: 50,
+            //   child: TextField(
+            //     textAlignVertical: TextAlignVertical.bottom,
+            //     decoration: InputDecoration(
+            //       fillColor: Colors.white,
+            //       prefixIcon: const Icon(Icons.search),
+            //       hintText: "Search For Your Location",
+            //       border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))
+            //     ),
+            //   ),
+            // ),
             //get current location button
             ListTile(
               onTap: (){
@@ -58,9 +80,99 @@ class _LocationPageState extends State<LocationPage> {
               title: const Text("Use Current Location"),
               trailing: const Icon(Icons.chevron_right),
             ),
+            buildPredictionList()
           ],
         ),
       ),
     );
+  }
+
+  Widget buildSearchBar() {
+    return SizedBox(
+      height: 50,
+      child: TextFormField(
+        controller: searchController,
+        keyboardType: TextInputType.streetAddress,
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: const BorderSide(color: Colors.black),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: const BorderSide(color: Colors.black),
+          ),
+          hintText: "Search for a location",
+          prefixIcon: const Icon(Icons.search),
+          suffixIcon: searchController.text.isEmpty
+              ? null
+              : IconButton(
+            icon: const Icon(Icons.cancel_sharp),
+            onPressed: () {
+              setState(() {
+                searchController.clear();
+                predictionList.clear();
+              });
+            },
+          ),
+        ),
+        onChanged: (query) {
+          placeAutoComplete(query);
+        },
+      ),
+    );
+  }
+
+  Widget buildPredictionList() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: searchController.text.isEmpty ? pastSearch.length : predictionList.length,
+        itemBuilder: (context, index) {
+          var prediction = searchController.text.isEmpty
+              ? pastSearch.elementAt(index)
+              : predictionList[index];
+          return InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => WeatherDetailScreen(prediction: prediction),
+                ),
+              );
+              setState(() {
+                pastSearch.add(prediction);
+              });
+            },
+            child: prediction.structuredFormatting == null ?
+                null :
+            ListTile(
+              leading: Icon(searchController.text.isEmpty
+                  ? Icons.access_time_outlined
+                  : Icons.location_pin),
+              title: Text(prediction.structuredFormatting!.mainText ),
+              subtitle: prediction.structuredFormatting!.secondaryText != null
+                  ? Text(prediction.structuredFormatting!.secondaryText!)
+                  : null,
+              trailing: const Icon(Icons.call_made_outlined),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+
+class WeatherDetailScreen extends StatefulWidget {
+  final Prediction prediction;
+  const WeatherDetailScreen({super.key, required this.prediction});
+
+  @override
+  State<WeatherDetailScreen> createState() => _WeatherDetailScreenState();
+}
+
+class _WeatherDetailScreenState extends State<WeatherDetailScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
