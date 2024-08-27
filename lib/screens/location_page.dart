@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:garma_garam_tiffin_app/widgets/default_button.dart";
 import "package:geolocator/geolocator.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "../services/location_autocomplete_google.dart";
@@ -189,18 +190,32 @@ class _LocationMapScreenState extends State<LocationMapScreen> {
     if (lat == null){
       return const CircularProgressIndicator();
     } else {
-      return GoogleMap(
-        markers: {
-          Marker(
-            markerId: const MarkerId('sourceLocation'),
-            icon: BitmapDescriptor.defaultMarker,
-            position: LatLng(lat!, lng!),
-          ),
-        },
-        initialCameraPosition: CameraPosition(target: LatLng(lat!, lng!),
-          zoom: 13,
-        )
-    );
+      return Scaffold(
+        appBar: AppBar(),
+        body: Column(
+          children: [
+            Expanded(
+              flex: 5,
+              child: GoogleMap(
+                markers: {
+                  Marker(
+                    markerId: const MarkerId('sourceLocation'),
+                    icon: BitmapDescriptor.defaultMarker,
+                    position: LatLng(lat!, lng!),
+                  ),
+                },
+                initialCameraPosition: CameraPosition(target: LatLng(lat!, lng!),
+                  zoom: 13,
+                )
+                  ),
+            ),
+            Expanded(
+              flex: 1,
+                child: Center(child: SizedBox(height: 50, child: DefaultButton(onPressed: (){}, text: "Confirm Location")))
+            )
+          ],
+        ),
+      );
     }
   }
 }
