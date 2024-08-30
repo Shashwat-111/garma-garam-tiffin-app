@@ -99,3 +99,39 @@ Future<bool> saveUserRecord(UserModel user) async {
 
 
 
+///Function to get all User details from a email id.
+///returns a UserModel if the email exists in database.
+///should only be called if the user is already
+/// authenticated, to prevent getting a empty User.
+Future<UserModel> getUserRecord(String email) async {
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+  try {
+    DocumentSnapshot<Map<String, dynamic>> doc = await db.collection("User").doc(email).get();
+    if (doc.exists) {
+      return UserModel.fromJson(doc.data()!);
+    } else {
+      if (kDebugMode) {
+        print("Document does not exist");
+      }
+      return UserModel.empty();
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print("Error fetching user record: $e");
+    }
+    return UserModel.empty();
+  }
+}
+
+
+//helper Function to get a string for the Role enum
+String getStringFromRole(Role role){
+  switch (role){
+    case Role.admin :
+      return "admin";
+    case Role.customer :
+      return "customer";
+    case Role.restaurant:
+      return "restaurant";
+  }
+}
