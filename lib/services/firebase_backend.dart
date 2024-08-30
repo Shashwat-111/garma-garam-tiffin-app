@@ -1,11 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
-enum Role {
-  customer,
-  restaurant,
-  admin
-}
+enum Role { customer, restaurant, admin }
 
 //Class to store all the user details.
 //contains methods to parse from and to json.
@@ -34,16 +30,16 @@ class UserModel {
 
   // Helper function to create an empty user model
   static UserModel empty() => UserModel(
-    uniqueID: "",
-    name: "",
-    email: "",
-    address: "",
-    latitude: null,
-    longitude: 0,
-    role: Role.customer,
-    mobileNumber: null,
-    isVegetarian: null,
-  );
+        uniqueID: "",
+        name: "",
+        email: "",
+        address: "",
+        latitude: null,
+        longitude: 0,
+        role: Role.customer,
+        mobileNumber: null,
+        isVegetarian: null,
+      );
 
   // Convert a UserModel into a Map (toJson)
   Map<String, dynamic> toJson() {
@@ -69,13 +65,13 @@ class UserModel {
       address: json['address'],
       latitude: json['latitude']?.toDouble(),
       longitude: json['longitude']?.toDouble(),
-      role: Role.values.firstWhere((e) => e.toString() == 'Role.${json['role']}'),
+      role:
+          Role.values.firstWhere((e) => e.toString() == 'Role.${json['role']}'),
       mobileNumber: json['mobileNumber'],
       isVegetarian: json['isVegetarian'],
     );
   }
 }
-
 
 ///A function to save user record in the database.
 ///Call when signup is successful ,to add new user data to the firestore
@@ -88,7 +84,7 @@ Future<bool> saveUserRecord(UserModel user) async {
       print("User record saved successfully.");
     }
     return true;
-  } catch(e){
+  } catch (e) {
     if (kDebugMode) {
       print("Error while saving user record :$e");
     }
@@ -96,17 +92,15 @@ Future<bool> saveUserRecord(UserModel user) async {
   }
 }
 
-
-
-
 ///Function to get all User details from a email id.
 ///returns a UserModel if the email exists in database.
 ///should only be called if the user is already
 /// authenticated, to prevent getting a empty User.
-Future<UserModel> getUserRecord(String email) async {
+Future<UserModel> fetchUserRecord(String email) async {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   try {
-    DocumentSnapshot<Map<String, dynamic>> doc = await db.collection("User").doc(email).get();
+    DocumentSnapshot<Map<String, dynamic>> doc =
+        await db.collection("User").doc(email).get();
     if (doc.exists) {
       return UserModel.fromJson(doc.data()!);
     } else {
@@ -123,15 +117,106 @@ Future<UserModel> getUserRecord(String email) async {
   }
 }
 
-
 //helper Function to get a string for the Role enum
-String getStringFromRole(Role role){
-  switch (role){
-    case Role.admin :
+String getStringFromRole(Role role) {
+  switch (role) {
+    case Role.admin:
       return "admin";
-    case Role.customer :
+    case Role.customer:
       return "customer";
     case Role.restaurant:
       return "restaurant";
+  }
+}
+
+void addNewRestaurantToDatabase(Restaurant restaurant) async {
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+  try {
+    await db.collection("Restaurant").doc(restaurant.email).set(restaurant.toJson());
+  } catch(e){
+    if (kDebugMode) {
+      print("Error $e");
+    }
+  }
+}
+class Restaurant {
+  final String email;
+  final String mobileNumber;
+  final String name;
+  final bool isAvailableTomorrow;
+  final List<KitchenMenuItem> menu;
+  final int maxCapacity;
+
+  Restaurant(
+      this.mobileNumber, {
+        required this.email,
+        required this.name,
+        required this.isAvailableTomorrow,
+        required this.menu,
+        required this.maxCapacity,
+      });
+
+  // From JSON constructor
+  factory Restaurant.fromJson(Map<String, dynamic> json) {
+    return Restaurant(
+      json['mobileNumber'],
+      email: json['email'],
+      name: json['name'],
+      isAvailableTomorrow: json['isAvailableTomorrow'],
+      menu: (json['menu'] as List<dynamic>)
+          .map((item) => KitchenMenuItem.fromJson(item))
+          .toList(),
+      maxCapacity: json['maxCapacity'],
+    );
+  }
+
+  // To JSON method
+  Map<String, dynamic> toJson() {
+    return {
+      'email': email,
+      'mobileNumber': mobileNumber,
+      'name': name,
+      'isAvailableTomorrow': isAvailableTomorrow,
+      'menu': menu.map((item) => item.toJson()).toList(),
+      'maxCapacity': maxCapacity,
+    };
+  }
+}
+
+class KitchenMenuItem {
+  final int id;
+  final String title;
+  final String description;
+  final double price;
+  final bool isVeg;
+
+  KitchenMenuItem({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.price,
+    required this.isVeg,
+  });
+
+  // From JSON constructor
+  factory KitchenMenuItem.fromJson(Map<String, dynamic> json) {
+    return KitchenMenuItem(
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      price: json['price'],
+      isVeg: json['isVeg'],
+    );
+  }
+
+  // To JSON method
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'price': price,
+      'isVeg': isVeg,
+    };
   }
 }
