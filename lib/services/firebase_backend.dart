@@ -129,7 +129,7 @@ String getStringFromRole(Role role) {
   }
 }
 
-void addNewRestaurantToDatabase(Restaurant restaurant) async {
+void addNewRestaurant(Restaurant restaurant) async {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   try {
     await db.collection("Restaurant").doc(restaurant.email).set(restaurant.toJson());
@@ -139,6 +139,23 @@ void addNewRestaurantToDatabase(Restaurant restaurant) async {
     }
   }
 }
+
+//get the list of all available Restaurant
+//returns null if there is no Restaurant, or if any error occurred.
+Future<List<Restaurant>?> fetchRestaurantList () async {
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+  try{
+    var restaurantCollection = await db.collection("Restaurant").get();
+    List<Restaurant> restaurants = restaurantCollection.docs.map((doc)=> Restaurant.fromJson(doc.data())).toList();
+    return restaurants;
+  } catch (e){
+    if (kDebugMode) {
+      print("Error occurred while fetching Restaurant : $e");
+    }
+    return null;
+  }
+}
+
 class Restaurant {
   final String email;
   final String mobileNumber;
@@ -148,7 +165,8 @@ class Restaurant {
   final int maxCapacity;
 
   Restaurant(
-      this.mobileNumber, {
+      {
+        required this.mobileNumber,
         required this.email,
         required this.name,
         required this.isAvailableTomorrow,
@@ -159,7 +177,7 @@ class Restaurant {
   // From JSON constructor
   factory Restaurant.fromJson(Map<String, dynamic> json) {
     return Restaurant(
-      json['mobileNumber'],
+      mobileNumber: json['mobileNumber'],
       email: json['email'],
       name: json['name'],
       isAvailableTomorrow: json['isAvailableTomorrow'],
